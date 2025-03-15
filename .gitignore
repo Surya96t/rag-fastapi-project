@@ -3,6 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# databases
+chroma_db
+*.db
+*.db-shm
+*.db-wal
+
+
 # C extensions
 *.so
 
