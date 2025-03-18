@@ -53,11 +53,11 @@ def chat(query_input: QueryInput):
 ## Document upload endpoint
 @app.post("/upload-doc")
 def upload_and_index_document(file: UploadFile = File(...)):
-    allowed_extensions = ['pdf', 'docx', 'html']
+    allowed_extensions = ['.pdf', '.docx', '.html']
     file_extension = os.path.splitext(file.filename)[1].lower()
 
     if file_extension not in allowed_extensions:
-        raise HTTPException(status_code=400, detail="Unsupported file type. Allowed types are: {', '.join(allowed_extensions)}")
+        raise HTTPException(status_code=400, detail=f"Unsupported file type. Allowed types are: {', '.join(allowed_extensions)}. File extension provided: {file_extension}")
     
     temp_file_path = f"temp_{file.filename}"
 
@@ -70,7 +70,7 @@ def upload_and_index_document(file: UploadFile = File(...)):
         success = index_document_to_chroma(temp_file_path, file_id)
 
         if success:
-            return {"message": f"File {file.filename} has been successfully uploaded and indexed.", "file_id": file_id}
+            return {"message": f"File {file.filename} has been successfully uploaded and indexed.", "file_id": str(file_id)}
         else:
             delete_document_record(file_id)
             raise HTTPException(status_code=500, detail=f"Failed to index {file.filename}.")
