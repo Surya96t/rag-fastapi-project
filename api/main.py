@@ -19,7 +19,6 @@ load_dotenv()
 # Set up logging
 logging.basicConfig(filename='app.log', level=logging.INFO)
 
-
 # Initialize the FastAPI app
 app = FastAPI()
 
